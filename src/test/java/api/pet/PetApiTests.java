@@ -186,7 +186,7 @@ class PetApiTests extends BaseApiTest {
   @Test
   @DisplayName("GET /v2/pet/{petId} - Return 404 for non-existent pet")
   void shouldReturn404ForNonExistentPet() {
-    Long nonExistentId = 999999L;
+    Long nonExistentId = 999998L;
     log.info("Testing 404 response for non-existent pet ID: {}", nonExistentId);
 
     given()
