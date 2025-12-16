@@ -91,13 +91,31 @@ branch: ${REFSPEC}
 
         stage("API tests in docker image") {
             sh """
+                echo "=== Проверка перед запуском ==="
+            echo "WORKSPACE: ${WORKSPACE}"
+            ls -la ${WORKSPACE}/ || echo "Cannot list workspace"
+
                 docker run --rm \
                 --network=host \
                 -e BASE_URL="${env.BASE_URL}" \
                 -v /root/.m2/repository:/root/.m2/repository \
                 -v ${WORKSPACE}/surefire-reports:/home/ubuntu/api_tests/target/surefire-reports \
                 -v ${WORKSPACE}/allure-results:/home/ubuntu/api_tests/target/allure-results \
-                -t localhost:5005/api_tests:2.0.0
+                -t localhost:5005/api_tests:2.0.0 \
+                
+                              sh -c "echo '=== Контейнер: рабочие директории ===' && \
+                     pwd && \
+                     echo '' && \
+                     echo '=== Существует ли /home/ubuntu/api_tests/target/allure-results? ===' && \
+                     ls -la /home/ubuntu/api_tests/target/ 2>/dev/null || echo 'Директория не существует' && \
+                     echo '' && \
+                     echo '=== Поиск allure-results в контейнере ===' && \
+                     find / -name '*allure*' -type d 2>/dev/null | head -10 && \
+                     echo '' && \
+                     echo '=== Проверка целевой директории ===' && \
+                     mkdir -p /home/ubuntu/api_tests/target/allure-results && \
+                     echo 'test' > /home/ubuntu/api_tests/target/allure-results/test.txt && \
+                     ls -la /home/ubuntu/api_tests/target/allure-results/"
             """
             sh """
                 echo ${WORKSPACE}
