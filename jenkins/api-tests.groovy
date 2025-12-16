@@ -99,6 +99,9 @@ branch: ${REFSPEC}
                 -v ${WORKSPACE}/allure-results:/target/allure-results \
                 -t localhost:5005/api_tests:2.0.0
             """
+            sh """
+                echo ${WORKSPACE}
+            """
         }
 
         stage("Verify Allure Results") {
