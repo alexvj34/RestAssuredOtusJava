@@ -133,13 +133,7 @@ stage("API tests in docker image") {
                         ls -la ${WORKSPACE}/
                     """
 
-            allure([
-                    includeProperties: false,
-                    jdk: '',
-                    properties: [],
-                    reportBuildPolicy: 'ALWAYS',
-                    results: [[path: './allure-results']]
-            ])
+            archiveArtifacts artifacts: '**/allure-results/**', fingerprint: true
         }
 
         stage("Verify Allure Results") {
