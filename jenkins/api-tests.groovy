@@ -97,7 +97,7 @@ branch: ${REFSPEC}
                         mkdir -p /tmp/jenkins-${BUILD_NUMBER}
                     """
 
-            sh """
+            /*sh """
                 echo "=== Проверка перед запуском ==="
             echo "WORKSPACE: ${WORKSPACE}"
             ls -la ${WORKSPACE}/ || echo "Cannot list workspace"
@@ -123,6 +123,9 @@ branch: ${REFSPEC}
                      mkdir -p /home/ubuntu/api_tests/target/allure-results && \
                      echo 'test' > /home/ubuntu/api_tests/target/allure-results/test.txt && \
                      ls -la /home/ubuntu/api_tests/target/allure-results/"
+            """*/
+            """
+                mvn clean test
             """
             sh """
                 echo ${WORKSPACE}
