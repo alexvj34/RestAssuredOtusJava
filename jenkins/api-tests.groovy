@@ -91,6 +91,10 @@ branch: ${REFSPEC}
 
         stage("API tests in docker image") {
             sh """
+                        mkdir -p /tmp/jenkins-${BUILD_NUMBER}
+                    """
+
+            sh """
                 echo "=== Проверка перед запуском ==="
             echo "WORKSPACE: ${WORKSPACE}"
             ls -la ${WORKSPACE}/ || echo "Cannot list workspace"
@@ -120,6 +124,11 @@ branch: ${REFSPEC}
             sh """
                 echo ${WORKSPACE}
             """
+
+            sh """
+                        cp -r /tmp/jenkins-${BUILD_NUMBER}/* ${WORKSPACE}/ || true
+                        ls -la ${WORKSPACE}/
+                    """
         }
 
         stage("Verify Allure Results") {
