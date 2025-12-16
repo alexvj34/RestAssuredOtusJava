@@ -83,8 +83,8 @@ branch: ${REFSPEC}
                 --network=host \
                 -e BASE_URL="${env.BASE_URL}" \
                 -v /root/.m2/repository:/root/.m2/repository \
-                -v ./surefire-reports:/home/ubuntu/api_tests/target/surefire-reports \
-                -v ./allure-results:/var/jenkins_home/workspace/api-tests/allure-results \
+                -v ${WORKSPACE}/surefire-reports:/home/ubuntu/api_tests/target/surefire-reports \
+                -v ${WORKSPACE}/allure-results:/var/jenkins_home/workspace/api-tests/allure-results \
                 -t localhost:5005/api_tests:2.0.0
             """
         }
@@ -92,10 +92,10 @@ branch: ${REFSPEC}
         stage("Verify Allure Results") {
             sh """
                 # Проверяем, что allure-results созданы и не пустые
-                if [ -d "./allure-results" ]; then
+                if [ -d "${WORKSPACE}/allure-results" ]; then
                     echo "Allure results directory exists"
                     echo "Files in allure-results:"
-                    ls -la ./allure-results/ || true
+                    ls -la ${WORKSPACE}/allure-results/ || true
                     
                     # Подсчитываем количество файлов
                     FILE_COUNT=\$(find ./allure-results -type f | wc -l)
