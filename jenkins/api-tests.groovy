@@ -159,12 +159,13 @@ branch: ${REFSPEC}
         }
 
         stage("Publish Allure Reports") {
+            sh "pwd"
             allure([
                     includeProperties: false,
                     jdk: '',
                     properties: [],
                     reportBuildPolicy: 'ALWAYS',
-                    results: [[path: '${WORKSPACE}/allure-results']]
+                    results: [[path: './allure-results']]
             ])
         }
     }
