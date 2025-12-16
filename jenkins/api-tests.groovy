@@ -133,7 +133,7 @@ branch: ${REFSPEC}
                         ls -la ${WORKSPACE}/
                     """
 
-            archiveArtifacts artifacts: '**/allure-results', fingerprint: true
+            archiveArtifacts artifacts: '**', fingerprint: true
         }
 
         stage("Verify Allure Results") {
