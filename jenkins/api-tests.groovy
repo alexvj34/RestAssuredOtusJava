@@ -56,13 +56,17 @@ build user: ${BUILD_USER}
 branch: ${REFSPEC}
 """
 
-            config = readYaml text: env.YAML_CONFIG
+            // Читаем конфиг безопасным способом
+            def configContent = readYaml text: env.YAML_CONFIG ?: ''
+            def baseUrl = "https://petstore.swagger.io/v2" // значение по умолчанию
 
-            if (config != null) {
-                for (param in config.entrySet()) {
-                    env.setProperty(param.getKey(), param.getValue())
-                }
+            if (configContent != null && !configContent.isEmpty()) {
+                // Безопасное получение значения
+                baseUrl = configContent.get("BASE_URL") ?: baseUrl
             }
+
+            // Сохраняем в переменной
+            env.BASE_URL = baseUrl
         }
 
         stage("Checkout") {
@@ -77,7 +81,7 @@ branch: ${REFSPEC}
             sh """
                 docker run --rm \
                 --network=host \
-                -e BASE_URL="${env.getProperty('BASE_URL', 'https://petstore.swagger.io/v2')}" \
+                -e BASE_URL="${env.BASE_URL}" \
                 -v /root/.m2/repository:/root/.m2/repository \
                 -v ./surefire-reports:/home/ubuntu/api_tests/target/surefire-reports \
                 -v ./allure-results:/home/ubuntu/api_tests/target/allure-results \
