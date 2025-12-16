@@ -79,7 +79,7 @@ branch: ${REFSPEC}
             docker.build("localhost:5005/api_tests:2.0.0")
         }
 
-stage("API tests in docker image") {
+/*stage("API tests in docker image") {
             sh """
                 docker run --rm \
                 --network=host \
@@ -89,7 +89,7 @@ stage("API tests in docker image") {
                 -v ${WORKSPACE}/allure-results:/home/ubuntu/api_tests/allure-results \
                 -t localhost:5005/api_tests:2.0.0
             """
-        }
+        }*/
 
 
         stage("API tests in docker image") {
@@ -133,7 +133,7 @@ stage("API tests in docker image") {
                         ls -la ${WORKSPACE}/
                     """
 
-            archiveArtifacts artifacts: '**/allure-results/**', fingerprint: true
+            archiveArtifacts artifacts: '**/allure-results', fingerprint: true
         }
 
         stage("Verify Allure Results") {
