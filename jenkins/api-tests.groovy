@@ -124,7 +124,7 @@ branch: ${REFSPEC}
                      echo 'test' > /home/ubuntu/api_tests/target/allure-results/test.txt && \
                      ls -la /home/ubuntu/api_tests/target/allure-results/"
             """*/
-            """
+            sh """
                 mvn clean test
             """
             sh """
