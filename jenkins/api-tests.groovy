@@ -84,7 +84,7 @@ branch: ${REFSPEC}
                 -e BASE_URL="${env.BASE_URL}" \
                 -v /root/.m2/repository:/root/.m2/repository \
                 -v ${WORKSPACE}/surefire-reports:/home/ubuntu/api_tests/target/surefire-reports \
-                -v ${WORKSPACE}/allure-results:/var/jenkins_home/workspace/api-tests/allure-results \
+                -v ${WORKSPACE}/allure-results:/home/ubuntu/api_tests/allure-results \
                 -t localhost:5005/api_tests:2.0.0
             """
         }
