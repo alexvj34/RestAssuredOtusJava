@@ -99,8 +99,8 @@ branch: ${REFSPEC}
                 --network=host \
                 -e BASE_URL="${env.BASE_URL}" \
                 -v /root/.m2/repository:/root/.m2/repository \
-                -v ${WORKSPACE}/surefire-reports:/home/ubuntu/api_tests/target/surefire-reports \
-                -v ${WORKSPACE}/allure-results:/app/target/allure-results \
+                -v ./surefire-reports:/home/ubuntu/api_tests/target/surefire-reports \
+                -v ./allure-results:/home/ubuntu/api_tests/target/allure-results \
                 -t localhost:5005/api_tests:2.0.0 \
                 
                               sh -c "echo '=== Контейнер: рабочие директории ===' && \
@@ -155,7 +155,7 @@ branch: ${REFSPEC}
                     jdk: '',
                     properties: [],
                     reportBuildPolicy: 'ALWAYS',
-                    results: [[path: '/${WORKSPACE}/allure-results']]
+                    results: [[path: './allure-results']]
             ])
         }
     }
