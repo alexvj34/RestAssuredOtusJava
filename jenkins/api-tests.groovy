@@ -50,7 +50,6 @@ branch: ${REFSPEC}
 }*/
 
 
-/*
 timeout(15) {
     node("maven") {
         wrap([$class: 'BuildUser']) {
@@ -80,8 +79,7 @@ branch: ${REFSPEC}
             docker.build("localhost:5005/api_tests:2.0.0")
         }
 
-        */
-/*stage("API tests in docker image") {
+stage("API tests in docker image") {
             sh """
                 docker run --rm \
                 --network=host \
@@ -91,7 +89,7 @@ branch: ${REFSPEC}
                 -v ${WORKSPACE}/allure-results:/home/ubuntu/api_tests/allure-results \
                 -t localhost:5005/api_tests:2.0.0
             """
-        }*//*
+        }
 
 
         stage("API tests in docker image") {
@@ -134,6 +132,14 @@ branch: ${REFSPEC}
                         cp -r /tmp/jenkins-${BUILD_NUMBER}/* ${WORKSPACE}/ || true
                         ls -la ${WORKSPACE}/
                     """
+
+            allure([
+                    includeProperties: false,
+                    jdk: '',
+                    properties: [],
+                    reportBuildPolicy: 'ALWAYS',
+                    results: [[path: './allure-results']]
+            ])
         }
 
         stage("Verify Allure Results") {
@@ -175,9 +181,8 @@ branch: ${REFSPEC}
         }
     }
 }
-*/
 
-timeout(15) {
+/*timeout(15) {
     node("maven") {
         wrap([$class: 'BuildUser']) {
             currentBuild.description = """
@@ -212,11 +217,11 @@ branch: ${REFSPEC}
                 # Очищаем и создаем директории
                 rm -rf ${WORKSPACE}/allure-results ${WORKSPACE}/surefire-reports
                 mkdir -p ${WORKSPACE}/allure-results ${WORKSPACE}/surefire-reports
-                
+
                 echo "=== Запуск тестов ==="
                 echo "WORKSPACE: ${WORKSPACE}"
                 echo "BASE_URL: ${env.BASE_URL}"
-                
+
                 # Запускаем тесты с ПРАВИЛЬНЫМ монтированием
                 docker run --rm \
                   --network=host \
@@ -225,7 +230,7 @@ branch: ${REFSPEC}
                   -v ${WORKSPACE}/surefire-reports:/home/ubuntu/api_tests/target/surefire-reports \
                   -v ${WORKSPACE}/allure-results:/home/ubuntu/api_tests/target/allure-results \
                   localhost:5005/api_tests:2.0.0
-                
+
                 # Проверяем результаты сразу
                 echo "=== Проверка результатов на хосте ==="
                 echo "Директория allure-results:"
@@ -252,10 +257,10 @@ branch: ${REFSPEC}
                     echo ""
                     echo "Файлы:"
                     find "${WORKSPACE}/allure-results" -type f 2>/dev/null | head -20
-                    
+
                     FILE_COUNT=\$(find "${WORKSPACE}/allure-results" -name "*.json" 2>/dev/null | wc -l)
                     echo "Всего JSON файлов: \$FILE_COUNT"
-                    
+
                     if [ \$FILE_COUNT -eq 0 ]; then
                         echo "ВНИМАНИЕ: Нет JSON файлов!"
                         # Создаем тестовый файл
@@ -281,5 +286,5 @@ branch: ${REFSPEC}
             ])
         }
     }
-}
+}*/
 
