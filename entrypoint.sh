@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-command="mvn test -Dbase.url=$BASE_URL"
+command="mvn test -Dbase.url=$BASE_URL -Dallure.results.directory=target/allure-results"
 
 echo "Run: " $command
 eval $command
