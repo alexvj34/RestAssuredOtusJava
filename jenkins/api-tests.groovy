@@ -276,6 +276,32 @@ branch: ${REFSPEC}
             """
         }
 
+        stage("Test Docker Volume Mount") {
+            sh """
+        echo "=== ТЕСТ DOCKER VOLUME ==="
+        
+        TEST_DIR="${workspace}/test-docker"
+        rm -rf "\$TEST_DIR"
+        mkdir -p "\$TEST_DIR"
+        
+        echo "Тест 1: Создание файла через Docker"
+        docker run --rm \
+          -v "\$TEST_DIR:/test" \
+          alpine:latest \
+          sh -c "echo '{\\\"test\\\":\\\"data\\\"}' > /test/docker-test.json && ls -la /test/"
+        
+        echo "На хосте:"
+        ls -la "\$TEST_DIR/"
+        cat "\$TEST_DIR/docker-test.json" 2>/dev/null || echo "Файл не создан"
+        
+        echo ""
+        echo "Тест 2: Команда find"
+        echo "Без кавычек:"
+        find \$TEST_DIR -name *.json 2>/dev/null || echo "Не найдено"
+        echo "С кавычками:"
+        find "\$TEST_DIR" -name "*.json" 2>/dev/null || echo "Не найдено"
+    """
+
         stage("Publish Allure Report") {
             echo "Publishing Allure report..."
             allure([
