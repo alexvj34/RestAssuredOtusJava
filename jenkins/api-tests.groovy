@@ -222,13 +222,13 @@ branch: ${REFSPEC}
                 echo "BASE_URL: ${env.BASE_URL}"
 
                 # Запускаем тесты с ПРАВИЛЬНЫМ монтированием
-        docker run --rm \\
-          --network=host \\
-          --user \\\$(id -u):\\\$(id -g) \\
+        docker run --rm \
+          --network=host \
+          --user \$(id -u):\$(id -g) \
           -e BASE_URL="${env.BASE_URL}" \\
-          -v /root/.m2/repository:/root/.m2/repository \\
-          -v ${workspace}/surefire-reports:/home/ubuntu/api_tests/target/surefire-reports \\
-          -v ${workspace}/allure-results:/home/ubuntu/api_tests/target/allure-results \\
+          -v /root/.m2/repository:/root/.m2/repository \
+          -v ${workspace}/surefire-reports:/home/ubuntu/api_tests/target/surefire-reports \
+          -v ${workspace}/allure-results:/home/ubuntu/api_tests/target/allure-results \
           localhost:5005/api_tests:2.0.0 || echo "Docker run завершился с ошибкой, но продолжаем..."
 
                 # Проверяем результаты сразу
