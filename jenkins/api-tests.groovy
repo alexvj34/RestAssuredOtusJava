@@ -300,7 +300,8 @@ branch: ${REFSPEC}
         find \$TEST_DIR -name *.json 2>/dev/null || echo "Не найдено"
         echo "С кавычками:"
         find "\$TEST_DIR" -name "*.json" 2>/dev/null || echo "Не найдено"
-    """
+            """
+        }  // <-- ВОТ ЗДЕСЬ ДОБАВЬТЕ ЗАКРЫВАЮЩУЮ СКОБКУ!
 
         stage("Publish Allure Report") {
             echo "Publishing Allure report..."
