@@ -205,6 +205,13 @@ branch: ${REFSPEC}
         }
 
         stage('Build Docker Image') {
+            sh '''
+        echo "Проверяем entrypoint.sh:"
+        cat entrypoint.sh
+        echo ""
+        echo "Содержимое рабочей директории:"
+        ls -la
+    '''
             docker.build("localhost:5005/api_tests:2.0.0")
         }
 
