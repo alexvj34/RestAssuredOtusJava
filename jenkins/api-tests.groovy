@@ -224,6 +224,7 @@ branch: ${REFSPEC}
                 # Запускаем тесты с ПРАВИЛЬНЫМ монтированием
                 docker run --rm \
                   --network=host \
+                  --user \$(id -u):\$(id -g) \\  # <-- ДОБАВЬТЕ ЭТУ СТРОКУ
                   -e BASE_URL="${env.BASE_URL}" \
                   -v /root/.m2/repository:/root/.m2/repository \
                   -v ${workspace}/surefire-reports:/home/ubuntu/api_tests/target/surefire-reports \
