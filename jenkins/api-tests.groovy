@@ -50,7 +50,7 @@ branch: ${REFSPEC}
 }*/
 
 
-timeout(15) {
+/*timeout(15) {
     node("maven") {
         wrap([$class: 'BuildUser']) {
             currentBuild.description = """
@@ -79,7 +79,7 @@ branch: ${REFSPEC}
             docker.build("localhost:5005/api_tests:2.0.0")
         }
 
-/*stage("API tests in docker image") {
+*//*stage("API tests in docker image") {
             sh """
                 docker run --rm \
                 --network=host \
@@ -89,7 +89,7 @@ branch: ${REFSPEC}
                 -v ${WORKSPACE}/allure-results:/home/ubuntu/api_tests/allure-results \
                 -t localhost:5005/api_tests:2.0.0
             """
-        }*/
+        }*//*
 
 
         stage("API tests in docker image") {
@@ -97,7 +97,7 @@ branch: ${REFSPEC}
                         mkdir -p /tmp/jenkins-${BUILD_NUMBER}
                     """
 
-            /*sh """
+            sh """
                 echo "=== Проверка перед запуском ==="
             echo "WORKSPACE: ${WORKSPACE}"
             ls -la ${WORKSPACE}/ || echo "Cannot list workspace"
@@ -123,10 +123,10 @@ branch: ${REFSPEC}
                      mkdir -p /home/ubuntu/api_tests/target/allure-results && \
                      echo 'test' > /home/ubuntu/api_tests/target/allure-results/test.txt && \
                      ls -la /home/ubuntu/api_tests/target/allure-results/"
-            """*/
-            sh """
-                mvn clean test
             """
+*//*            sh """
+                mvn clean test
+            """*//*
             sh """
                 echo ${WORKSPACE}
             """
@@ -177,9 +177,9 @@ branch: ${REFSPEC}
             ])
         }
     }
-}
+}*/
 
-/*timeout(15) {
+timeout(15) {
     node("maven") {
         wrap([$class: 'BuildUser']) {
             currentBuild.description = """
@@ -282,6 +282,11 @@ branch: ${REFSPEC}
                     results: [[path: 'allure-results']]  // БЕЗ точки!
             ])
         }
+        stage("Publish Allure Report")
+        steps{
+            echo "Publish Allure"
+                allure includeProperties: false, jdk: '', resultPolicy: 'LEAVE_AS_IS', results: [[path: 'allure-results']]
+        }
     }
-}*/
+}
 
